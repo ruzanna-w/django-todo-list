@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title%}
+    Tasks Categories
+{% endblock%}
+
+{% block content %}
+    <div class="content-category">
+        <div class="content-box">
+            <h1 class="beaver-title">Tasks Categories</h1>
+            <div class="category-box">
+                {% for category in task_category%}
+                    <details class="category-card">
+                        <summary class="category-title">
+                            <span class="category-name">{{ category.title }}</span>
+
+                            <span class="category-right">
+                                <span class="task-count">
+                                    {% if category.task_set.count == 1 %}
+                                        {{ category.task_set.count }} task
+                                    {% else %}
+                                        {{ category.task_set.count }} tasks
+                                    {% endif %}
+                                </span>
+                                <span class="arrow"></span>
+                            </span>
+                        </summary>
+                        <ul class="category-tasks">
+                            {% for task in category.task_set.all %}
+                                <li>{{ task.title }}</li>
+                            {% endfor %}
+                        </ul>
+                    </details>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="form-content-box">
+            <h2 class="beaver-title">Form</h2>
+            <form class="tag-form" method="post">
+                {% csrf_token %}
+                <fieldset>
+                    <legend class="text category-form-text">if you want to add a category, please fill the form below</legend>
+                    <div class="form-container">
+                        <label class="form-label">Title</label>
+                        <input type="text" name="title" placeholder="Enter category title" required>
+                    </div>
+                    <div class="button-group form-btn-group">
+                        <div class="button-group-left">
+                            <a href="{% url 'tasks:home' %}" class="btn-outline">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                    <path
+                                        d="M3 10.5L12 3L21 10.5V21H14V15H10V21H3V10.5Z"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linejoin="round"
+                                    />
+                                </svg>
+                                <span>Home</span>
+                            </a>
+                            <a href="{% url 'tasks:tasks' %}" class="btn-outline">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                    <path
+                                        d="M4 6H20M4 12H20M4 18H20"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                    />
+                                </svg>
+                                <span>All Tasks</span>
+                            </a>
+                        </div>
+                        <input type="submit" value="Create New Category">
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    
+{% endblock%}

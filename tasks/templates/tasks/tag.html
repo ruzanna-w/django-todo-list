@@ -1,0 +1,53 @@
+{% extends "base.html"%}
+
+{% block title %}
+    Tags
+{% endblock %}
+
+{% block content %}
+    <div class="content-box">
+        <h1 class="beaver-title">Tags List</h1>
+        <div class="tag-list">
+            {% for t in tag%}
+                <p class="tag-text">#{{t.title}}</p>
+            {% endfor%}
+        </div>
+        <form class="tag-form" method="post">
+            {% csrf_token %}
+            <fieldset class="tag-fieldset">
+                <legend class="text tag-form-text">if you want to add a tag, please fill the form below</legend>
+                <div class="form-container">
+                    <label class="form-label">Title</label>
+                    <input type="text" name="title" placeholder="Enter tag title" required>
+                </div>
+                <div class="button-group form-btn-group">
+                    <div class="button-group-left">
+                        <a href="{% url 'tasks:home' %}" class="btn-outline">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path
+                                    d="M3 10.5L12 3L21 10.5V21H14V15H10V21H3V10.5Z"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linejoin="round"
+                                />
+                            </svg>
+                            <span>Home</span>
+                        </a>
+                        <a href="{% url 'tasks:tasks' %}" class="btn-outline">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path
+                                    d="M4 6H20M4 12H20M4 18H20"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                />
+                            </svg>
+                            <span>All Tasks</span>
+                        </a>
+                    </div>
+                    <input type="submit" value="Create New Tag">
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}

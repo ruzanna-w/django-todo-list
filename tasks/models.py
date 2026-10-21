@@ -33,9 +33,16 @@ class Task(models.Model):
         TaskList, 
         on_delete=models.SET_NULL,
         null=True,
-        blank=True,)
-    
+        blank=True,
+    )
+
     tags = models.ManyToManyField(Tag, blank=True)
 
     def __str__(self):
-        return f"{self.title} - {self.description}"
+        return f"{self.title}"
+
+
+class RecurringTask(Task):
+    periodicity_hours = models.PositiveIntegerField(
+        help_text="Интервал повторения задачи в часах."
+    )

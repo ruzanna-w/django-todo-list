@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title%}
+    Home
+{% endblock%}
+
+{% block body_class %}
+    no-scroll
+{% endblock %}
+
+{% block content %}
+    <div class="home-page">
+        <img src="{% static 'tasks/beaver.png' %}" alt="Beaver" class="beaver-img">
+        <h1 class="beaver-title">Hello, eager beaver!</h1>
+        <p class="text">What would you like to do?</p>
+        <div class="button-group">
+            <a href="{% url 'tasks:tasks' %}" class="btn-outline">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path
+                        d="M4 6H20M4 12H20M4 18H20"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                    />
+                </svg>
+                <span>All Tasks</span>
+            </a>
+            <a href="{% url 'tasks:add_task' %}" class="btn-primary">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path
+                        d="M12 5V19M5 12H19"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                    />
+                </svg>
+                <span>Add New Task</span>
+            </a>
+        </div>
+    </div>
+    
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.html"%}
+
+{% block title %}
+    Delete Task
+{% endblock %}
+
+{% block body_class %}
+    no-scroll
+{% endblock %}
+
+{% block content %}
+
+    <div class="content-box">
+        <form class="delete-form" method="post">
+            {% csrf_token %}
+            <fieldset class="delete-title"><h5 class="text">Do you really want to delete your task?</h5></fieldset>
+            <input type="text" class="delete-task-input" value="{{ task.title }}" readonly>
+            <div class="confirm_removal">
+                <a href="{% url 'tasks:tasks' %}" class="btn-outline">NO</a>
+                <input type="submit" class="confirm-yes-btn" value="YES">
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

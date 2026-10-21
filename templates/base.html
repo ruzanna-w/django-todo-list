@@ -1,13 +1,32 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Document{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'tasks/style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Acme&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="{% block body_class %}{% endblock %}">
+    <nav class="site-nav">
+        <span class="nav-logo">
+            <a href="{% url 'tasks:home' %}">TODO 🦫</a>
+        </span>
+        <div class="nav-link">
+            <a href="{% url 'tasks:tasks' %}" class="nav-btn">Tasks</a>
+            <a href="{% url 'tasks:task_category' %}" class="nav-btn">Category</a>
+            <a href="{% url 'tasks:tag' %}" class="nav-btn">Tag</a>
+        </div>
+        <a href="{% url 'tasks:add_task' %}" class="btn-primary">+ Add</a>
+    </nav>
     <main>
         {% block content %}{% endblock %}
     </main>
+    <script src="{% static 'tasks/script.js' %}"></script>
 </body>
 </html>

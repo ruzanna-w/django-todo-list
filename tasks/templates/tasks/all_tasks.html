@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}
+    All Tasks
+{% endblock %}
+
+{% block content %}
+    <div class="content-box">
+        <h1 class="beaver-title">Tasks list</h1>
+        <div class="tasks-list">
+            {% if all_tasks %}
+                {% for task in all_tasks %}
+                    <div class="tasks-checkbox {% if task.done %}status-done{% endif %}">
+                        <div class="task-info">
+                            <div class="task-title-group">
+                                <h5 class="task-title">{{ task.title }}</h5>
+                                <span class="task-priority priority-{{ task.priority }}">{{ task.priority }}</span>
+                            </div>
+                            <p class="task-description">{{ task.description }}</p>
+                            <p class="task-deadline">{{ task.deadline }}</p>
+                            <div class="tag-group">
+                                {% for tag in task.tags.all%}
+                                    <p class="tags-list">#{{tag.title}}</p>
+                                {% endfor%}
+                            </div>    
+                        </div>
+                        <div class="task-detail">
+                            <form action="{% url 'tasks:task_status'%}" class="form-checkbox" method="post">
+                                {% csrf_token %}
+                                <div class="task-status-group">
+                                    <input type="hidden" 
+                                        name="task" 
+                                        value="{{ task.id }}">
+                                    <input type="checkbox"
+                                            {% if task.done %}checked{% endif %}>
+
+                                    {% if task.done %}
+                                        <span class="task-status">Done</span>
+                                    {% else %}
+                                        <span class="task-status">To do</span>
+                                    {% endif %}    
+                                </div>
+                            </form>
+                            
+                                
+                            <div class="task-configuration">
+                                <a href="{% url 'tasks:edit' task.id %}" class="edit">EDIT TASK</a>
+                                <a href="{% url 'tasks:task_delete' task.id %}" class="delete_task">DELETE</a>
+                            </div>
+                            
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="text">🦫 There aren't any tasks yet 🦫</p>
+            {% endif %}
+        </div> 
+        <div class="button-group task-list-buttons">
+            <a href="{% url 'tasks:home' %}" class="btn-outline">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path
+                        d="M3 10.5L12 3L21 10.5V21H14V15H10V21H3V10.5Z"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linejoin="round"
+                    />
+                </svg>
+                <span>Home</span>
+            </a>
+            <a href="{% url 'tasks:add_task'%}" class="btn-primary">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path
+                        d="M12 5V19M5 12H19"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                    />
+                </svg>
+                <span>Add New Task</span>
+            </a>
+        </div>
+    </div>
+
+{% endblock %}
