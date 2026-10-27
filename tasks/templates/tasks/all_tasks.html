@@ -25,23 +25,27 @@
                             </div>    
                         </div>
                         <div class="task-detail">
-                            <form action="{% url 'tasks:task_status'%}" class="form-checkbox" method="post">
+                            <form action="{% url 'tasks:task_status'%}" 
+                                  class="form-checkbox" 
+                                  method="post">
                                 {% csrf_token %}
-                                <div class="task-status-group">
-                                    <input type="hidden" 
-                                        name="task" 
-                                        value="{{ task.id }}">
-                                    <input type="checkbox"
-                                            {% if task.done %}checked{% endif %}>
 
+                                <div class="task-status-group">
+                                    <input type="hidden" name="task" value="{{ task.id }}">
+
+                                    <input type="checkbox"
+                                           name="done"
+                                           value="on"
+                                           {% if task.done %}checked{% endif %}
+                                           onchange="this.form.submit()">  
+                                    
                                     {% if task.done %}
                                         <span class="task-status">Done</span>
                                     {% else %}
                                         <span class="task-status">To do</span>
-                                    {% endif %}    
+                                    {% endif %}
                                 </div>
                             </form>
-                            
                                 
                             <div class="task-configuration">
                                 <a href="{% url 'tasks:edit' task.id %}" class="edit">EDIT TASK</a>

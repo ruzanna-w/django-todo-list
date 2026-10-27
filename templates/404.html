@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title%}
+    Page not found
+{% endblock%}
+
+{% block body_class %}error-page{% endblock %}
+
+{% block content%}
+    <div class="home-page error-page">
+        <img src="{% static 'tasks/images/error-beaver.png' %}" alt="error beaver" class="error-beaver-img">
+        <p class="error-description">Oops, the page you're looking for doesn't exist</p>
+        <div class="button-group task-list-buttons">
+            <a href="{% url 'tasks:home' %}" class="btn-outline back-home">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path
+                        d="M3 10.5L12 3L21 10.5V21H14V15H10V21H3V10.5Z"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linejoin="round"
+                    />
+                </svg>
+                <span>Home</span>
+            </a>
+        </div>
+    </div>
+    
+{% endblock %}

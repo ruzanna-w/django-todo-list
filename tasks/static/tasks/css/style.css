@@ -167,7 +167,8 @@ h5 {
     font-size: 18px;
 }
 
-.beaver-img {
+.beaver-img,
+.error-beaver-img {
     display: block;
     width: 340px;
     margin: 0 auto 10px;
@@ -260,8 +261,8 @@ select option {
 /* ===== FORM: CHECKBOXES & TAGS ===== */
 input[type="checkbox"] {
     appearance: none;
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     flex-shrink: 0;
     border: 2px solid var(--color-primary);
     border-radius: 50%;
@@ -273,18 +274,20 @@ input[type="checkbox"]:checked {
     background-color: var(--color-primary);
 }
 
-.tags-group {
+.tag-checkbox {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 24px;
-    row-gap: 12px;
+    gap: 12px;
+    padding-top: 12px;
 }
 
-.tag-checkbox {
-    display: flex;
+.tags-group label {
+    display: inline-flex;
     align-items: center;
-    gap: 1px;
+    gap: 4px;
+    white-space: nowrap;
+    margin: 0;
 }
 
 /* ===== BUTTONS ===== */
@@ -379,12 +382,19 @@ input[type="submit"]:hover {
     align-items: center;
 }
 
-.task-title {
+.task-title,
+.error-sign,
+.error-description {
     font-family: "Nunito", sans-serif;
     font-weight: 800;
     color: var(--color-text);
     margin-right: 8px;
-    /* margin-bottom: 4px; */
+}
+
+.error-description  {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
 }
 
 .task-description,
@@ -656,4 +666,20 @@ input[type="text"].delete-task-input {
     display: flex;
     justify-content: center;
     margin: 0 12px;
+}
+
+/* ===== ERROR PAGE ===== */
+
+.error-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.error-page .site-nav {
+    display: none;
+}
+
+.back-home {
+    margin-top: 0;
 }

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import Task, TaskList, Tag
+from .forms import TaskForm, TaskStatusForm
 
 
 # Create your views here.
@@ -31,62 +32,30 @@ def tag_list(request):
 
 def add_task(request):
     if request.method == "POST":
-        title = request.POST["title"].capitalize()
-        description = request.POST["description"].capitalize()
-        deadline = request.POST["deadline"]
-        priority = request.POST["priority"]
-        category_id = request.POST.get("category")
-        tag_ids = request.POST.getlist("tags")
+        form = TaskForm(request.POST)
 
-        task = Task.objects.create(
-            title = title,
-            description = description,
-            deadline = deadline,
-            priority = priority,
-            task_list_id = category_id or None,
-        )
+        if form.is_valid():
+            form.save()
+            return redirect("tasks:add_task")
+    else:
+        form = TaskForm()
 
-        task.tags.set(tag_ids)
+    return render(request, "tasks/task_form.html", {'form':form})
 
-        return redirect("tasks:add_task")
-        
-    tag_list = Tag.objects.all()
-    task_list = TaskList.objects.all()
-
-    return render(request, "tasks/task_form.html", {
-        "tag_list": tag_list,
-        "task_list": task_list,
-        })
 
 def edit(request, task_id):
     task = get_object_or_404(Task, id=task_id)
     if request.method == "POST":
-        title = request.POST["title"]
-        description = request.POST["description"]
-        deadline = request.POST["deadline"]
-        priority = request.POST["priority"]
-        category_id = request.POST.get("category")
-        tag_ids = request.POST.getlist("tags")
+        form = TaskForm(request.POST, instance=task)
 
-        task.title = title
-        task.description = description
-        task.deadline = deadline
-        task.priority = priority
-        task.task_list_id = category_id or None
+        if form.is_valid():
+            form.save()
+            return redirect("tasks:tasks")
+    else:
+        form = TaskForm(instance=task)
 
-        task.save()
-        task.tags.set(tag_ids)
+    return render(request, "tasks/task_form.html", {"form": form, 'task': task})
 
-        return redirect("tasks:tasks")
-
-    tag_list = Tag.objects.all()
-    task_list = TaskList.objects.all()
-
-    return render(request, "tasks/task_form.html", {
-        "task": task,
-        "tag_list": tag_list,
-        "task_list": task_list,
-    })
 
 def delete_task(request, task_id):
     task = get_object_or_404(Task, id=task_id)
@@ -99,14 +68,15 @@ def delete_task(request, task_id):
 
 def change_status(request):
     if request.method == 'POST':
-        task_id = request.POST["task"]
-        task = Task.objects.get(id=task_id)
-        if task.done:
-            task.done = False
-            task.save()
-        else:
-            task.done = True
-            task.save()
-    
-        return redirect("tasks:tasks")
+        task_id = request.POST.get("task")
+        task = get_object_or_404(Task, id=task_id)
 
+        form = TaskStatusForm(request.POST, instance=task)
+
+        if form.is_valid():
+            form.save()
+    
+    return redirect("tasks:tasks")
+
+def page_not_found(request, exception):
+    return render(request, '404.html', status=404)
