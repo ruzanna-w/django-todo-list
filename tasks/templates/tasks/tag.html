@@ -5,28 +5,84 @@
 {% endblock %}
 
 {% block content %}
-    <div class="content-box">
-        <h1 class="beaver-title">Tags List</h1>
-        <div class="tag-list">
-            {% for t in tag%}
-                <p class="tag-text">#{{t.title}}</p>
-            {% endfor%}
+    <div class="content-box filter-box">
+        <h1 class="beaver-title">Tags</h1>
+        <p class="tag-caption">Choose tags to find matching tasks</p>
+        <div class="filter-container">
+            <form method="get">
+                <p class="title-filter">Filter tasks by tags</p>
+                <p class="caption-filter">Tasks with any selected tag will be shown</p>
+                <div class="tag-list">
+                    {% for t in tag%}
+                        <div class="tag-option">
+                            <label>
+                                <input 
+                                    type="checkbox" 
+                                    name="tags" 
+                                    value="{{ t.id }}"
+                                    {% if t.id|stringformat:"s" in selected_tags %}checked{% endif %}>
+                                <span class="tag-text">#{{t.title}}</span>
+                            </label>
+                            <a href="{% url 'tasks:delete_tag' t.id%}" class="tag-delete">×</a>
+                        </div>
+                    {% endfor%}
+                </div>
+                <p class="tag-selected-caption">
+                    {{ selected_count }}
+                    {% if selected_count == 1%}tag
+                    {% else %}tags
+                    {% endif %} selected
+                </p>
+                <input type="submit" value="Show Tasks">
+            </form>
+            {% if tasks %}
+                <p class="title-filter">Tasks with selected tags</p>
+                <p class="caption-filter">
+                    {{tasks_count}}
+                    {% if tasks_count == 1 %}task found{% else %}tasks found{% endif %} 
+                </p>
+                <ul class="filtered-task-list">
+                    {% for task in tasks %}
+                        <li class="filtered-task-item">
+                            <div class="filtered-task">
+                                <span class="filtered-task-title">{{ task.title }}</span>
+                                <span class="filtered-task-tag">
+                                    {% for tag in task.tags.all%}
+                                        {% if tag.id|stringformat:"s" in selected_tags %}
+                                            <span class="tags-list">#{{tag.title}}</span>
+                                        {% endif %}
+                                    {% endfor%}
+                                </span>
+                            </div>
+                            <p class="filtered-task-description">{{ task.description }}</p>
+                            <div class="task-configuration tag-task-configuration">
+                                <a href="{% url 'tasks:edit' task.id %}" class="edit">EDIT TASK</a>
+                                <a href="{% url 'tasks:task_delete' task.id %}" class="delete_task">DELETE</a>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
         </div>
-        <form class="tag-form" method="post">
-            {% csrf_token %}
-            <fieldset class="tag-fieldset">
-                <legend class="text tag-form-text">if you want to add a tag, please fill the form below</legend>
-                <div class="form-container">
-                    <label class="form-label">Title</label>
-                    <input type="text" name="title" placeholder="Enter tag title" required>
-                </div>
-                <div class="button-group form-btn-group">
-                    <div class="button-group-left">
-                        {% include 'tasks/includes/_home_and_tasks_links.html' %}
+
+        <div class="filter-container">
+            <form class="tag-form" method="post">
+                {% csrf_token %}
+                <fieldset class="tag-fieldset">
+                    <legend class="text tag-form-text">if you want to add a tag, please fill the form below</legend>
+                    <div class="form-container">
+                        <label class="form-label">Title</label>
+                        <input type="text" name="title" placeholder="Enter tag title" required>
                     </div>
-                    <input type="submit" value="Create New Tag">
-                </div>
-            </fieldset>
-        </form>
+                    <div class="button-group form-btn-group">
+                        <div class="button-group-left">
+                            {% include 'tasks/includes/_home_and_tasks_links.html' %}
+                        </div>
+                        <input type="submit" value="Create New Tag">
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+       
     </div>
 {% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title%}
+    Delete Tag
+{% endblock%}
+
+{% block content %}
+    <div class="content-box">
+        <form class="delete-form" method="post">
+            {% csrf_token%}
+            <fieldset class="delete-title"><h5 class="text">Do you really want to delete a tag?</h5></fieldset>
+            <input type="text" class="delete-tag-input" value="{{ tag.title }}" readonly>
+            <div class="confirm_removal">
+                <a href="{% url 'tasks:tag' %}" class="btn-outline">NO</a>
+                <input type="submit" class="confirm-yes-btn" value="YES">
+            </div>
+        </form>
+    </div>
+{% endblock %}

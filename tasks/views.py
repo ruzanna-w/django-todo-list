@@ -27,8 +27,18 @@ def tag_list(request):
         Tag.objects.create(title=title)
         return redirect("tasks:tag")
         
-    tag = Tag.objects.all()
-    return render(request, "tasks/tag.html", {"tag": tag})
+    tags = Tag.objects.all()
+    selected_tags = request.GET.getlist("tags")
+    tasks = Task.objects.filter(tags__id__in=selected_tags).distinct()
+    tasks_count = tasks.count()
+
+    return render(request, "tasks/tag.html", {
+        "tag": tags,
+        "selected_tags": selected_tags,
+        "selected_count": len(selected_tags),
+        "tasks": tasks,
+        "tasks_count": tasks_count,
+    })
 
 def add_task(request):
     if request.method == "POST":
@@ -77,6 +87,15 @@ def change_status(request):
             form.save()
     
     return redirect("tasks:tasks")
+
+def delete_tag(request, tag_id):
+    tag = get_object_or_404(Tag, id=tag_id)
+
+    if request.method == 'POST':
+        tag.delete()
+        return redirect("tasks:tag")
+    
+    return render(request, "tasks/tag_delete.html", {"tag": tag})
 
 def page_not_found(request, exception):
     return render(request, '404.html', status=404)

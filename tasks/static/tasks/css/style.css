@@ -82,28 +82,37 @@ main {
     align-items: center;
 }
 
-form,
 .content-box,
 .form-content-box {
     width: 100%;
     max-width: 600px;
     padding: 30px;
     background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
     border-radius: 12px;
     box-shadow: 1px 1px 4px var(--color-border);
 }
 
-.home-page {
+.home-page,
+.filter-box {
     width: 100%;
     max-width: 600px;
     padding: 30px;
     background-color: transparent;
     border: none;
     overflow: hidden;
+    box-shadow: none;
 }
 
-.tag-form,
+.filter-container {
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    margin-bottom: 12px;
+    background-color: var(--color-surface);
+    border-radius: 12px;
+    box-shadow: 1px 1px 4px var(--color-border);
+}
+
 .delete-form {
     padding: 0;
     margin: 0 auto;
@@ -133,21 +142,83 @@ h2 {
     padding: 18px 0;
 }
 
-.category-tasks {
+.category-tasks,
+.tag-caption,
+.title-filter,
+.caption-filter,
+.filtered-task-item {
     font-family: "Nunito", sans-serif;
+    color: var(--color-text);
     font-size: 18px;
     padding: 0;
 }
 
-.tag-text {
+.tag-option,
+.tag-caption {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tag-option input {
+    position: absolute;
+    opacity: 0;
+}
+
+.tag-option {
+    cursor: pointer;
+}
+
+.tag-option:has(input:checked) {
+    background-color: color-mix(in srgb, var(--color-water) 80%, transparent);
+}
+
+.tag-option {
+    background-color: color-mix(in srgb, var(--color-water) 30%, transparent);
+    padding: 8px;
+    gap: 8px;
+    border-radius: 8px;
+}
+
+.title-filter {
+    font-weight: 800;
+    color: var(--color-text);
+    margin-bottom: 0;
+    padding-bottom: 4px;
+}
+
+.caption-filter,
+.tag-selected-caption {
+    font-family: "Nunito", sans-serif;
+    font-size: 12px;
+    color: color-mix(in srgb, var(--color-text) 50%, transparent);
+    margin: 0;
+}
+
+.tag-text,
+.tag-text-explanation,
+.text-filter {
     font-family: "Nunito", sans-serif;
     font-size: 18px;
     color: var(--color-text);
     padding: 0;
     margin: 0;
-    padding: 8px;
-    background-color: color-mix(in srgb, var(--color-water) 50%, transparent);
-    border-radius: 8px;
+}
+.tag-text {
+    font-size: 12px;
+}
+
+.tag-selected-caption {
+    padding-bottom: 18px;
+}
+
+.tag-text-explanation {
+    padding: 18px 0 4px 0;
+}
+
+.text-filter {
+    font-size: 16px;
+    font-weight: 800;
 }
 
 .tag-form-text,
@@ -157,8 +228,17 @@ h2 {
     color: color-mix(in srgb, var(--color-text) 50%, transparent);
 }
 
+.tag-delete {
+    font-family: "Nunito", sans-serif;
+    color: var(--color-text);
+    font-size: 12px;
+    border: none;
+    background: transparent;
+}
+
 .beaver-title {
     font-family: "Acme", sans-serif;
+    color: var(--color-text);
     font-size: 60px;
 }
 
@@ -485,12 +565,17 @@ form.form-checkbox {
 }
 
 .edit,
-.delete_task {
+.delete_task,
+.tag-delete {
     text-decoration: none;
     font-family: "Nunito", sans-serif;
     font-size: 8px;
     color: var(--color-text);
     margin-bottom: 4px;
+}
+
+.tag-delete {
+    margin-bottom: 8px;
 }
 
 .delete_task {
@@ -512,7 +597,51 @@ form.form-checkbox {
     flex-wrap: wrap;
     gap: 12px;
     padding: 18px 0;
-    border-bottom: 1px solid var(--color-border);
+}
+
+.filtered-task-list {
+    padding: 18px 0;
+}
+
+.filtered-task {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.filtered-task-item{
+    padding: 12px 24px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 2px var(--color-border);;
+    border-bottom: none;
+}
+
+.filtered-task-title,
+.filtered-task-tag {
+    display: flex;
+    align-items: center;
+    font-weight: 800;
+    margin: 0;
+}
+
+.filtered-task-tag {
+    font-weight: 600;
+}
+
+.tags-list {
+    padding: 4px;
+}
+
+.filtered-task-description {
+    font-size: 12px;
+    margin: 0;
+    color: color-mix(in srgb, var(--color-text) 50%, transparent);
+}
+
+.tag-task-configuration {
+    justify-content: flex-start;
+    padding-top: 8px;
 }
 
 /* ===== CATEGORY ===== */
