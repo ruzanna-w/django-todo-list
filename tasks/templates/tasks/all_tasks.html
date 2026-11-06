@@ -19,7 +19,7 @@
                             <p class="task-description">{{ task.description }}</p>
                             <p class="task-deadline">{{ task.deadline }}</p>
                             <div class="tag-group">
-                                {% for tag in task.tags.all%}
+                                {% for tag in task.tags.all %}
                                     <p class="tags-list">#{{tag.title}}</p>
                                 {% endfor%}
                             </div>    
@@ -48,8 +48,8 @@
                             </form>
                                 
                             <div class="task-configuration">
-                                <a href="{% url 'tasks:edit' task.id %}" class="edit">EDIT TASK</a>
-                                <a href="{% url 'tasks:task_delete' task.id %}" class="delete_task">DELETE</a>
+                                <a href="{% url 'tasks:edit' task.slug %}" class="edit">EDIT TASK</a>
+                                <a href="{% url 'tasks:task_delete' task.slug %}" class="delete_task">DELETE</a>
                             </div>
                             
                         </div>

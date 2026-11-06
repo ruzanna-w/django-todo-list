@@ -17,11 +17,15 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
+from debug_toolbar.toolbar import debug_toolbar_urls
 from tasks.views import page_not_found
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("tasks/", include("tasks.urls")),
-]
+] + debug_toolbar_urls()
 
 handler404 = page_not_found
+
+admin.site.site_header = "Administration"
+admin.site.index_title = "To-do list"

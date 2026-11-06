@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import Task, TaskList, Tag
 from .forms import TaskForm, TaskStatusForm
+from django.db.models import Count
 
 
 # Create your views here.
@@ -9,7 +10,7 @@ def home(request):
     return render(request, "tasks/home.html")
 
 def task_list(request):
-    all_tasks = Task.objects.all()
+    all_tasks = Task.objects.all().prefetch_related('tags')
     return render(request, "tasks/all_tasks.html", {"all_tasks": all_tasks})
 
 def task_category(request):
@@ -18,7 +19,7 @@ def task_category(request):
         TaskList.objects.create(title=title)
         return redirect("tasks:task_category")
     
-    task_category = TaskList.objects.all()
+    task_category = TaskList.objects.annotate(task_count=Count("task")).prefetch_related("task_set")
     return render(request, "tasks/task_category.html", {"task_category": task_category})
 
 def tag_list(request):
@@ -53,8 +54,8 @@ def add_task(request):
     return render(request, "tasks/task_form.html", {'form':form})
 
 
-def edit(request, task_id):
-    task = get_object_or_404(Task, id=task_id)
+def edit(request, task_slug):
+    task = get_object_or_404(Task, slug=task_slug)
     if request.method == "POST":
         form = TaskForm(request.POST, instance=task)
 
@@ -67,8 +68,8 @@ def edit(request, task_id):
     return render(request, "tasks/task_form.html", {"form": form, 'task': task})
 
 
-def delete_task(request, task_id):
-    task = get_object_or_404(Task, id=task_id)
+def delete_task(request, task_slug):
+    task = get_object_or_404(Task, slug=task_slug)
 
     if request.method == "POST":
         task.delete()

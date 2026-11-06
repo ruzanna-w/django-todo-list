@@ -1,0 +1,69 @@
+/* LIGHT THEME */
+:root {
+    /* Text */
+    --color-background: #fff9ef;
+    --color-surface: #FFFDF7;
+    /* Primary */
+    --color-primary: #7D8C68;
+    --color-primary-hover: #657453;
+    --color-accent-light: #A5AF82;
+}
+
+#header, 
+.module caption, 
+#changelist-filter h2, 
+.selector-chosen-title {
+    background: var(--color-primary);
+}
+
+.theme-toggle svg.theme-icon-when-auto, 
+.theme-toggle svg.theme-icon-when-dark, 
+.theme-toggle svg.theme-icon-when-light {
+    color: transparent;
+}
+
+.module caption {
+    letter-spacing: 0;
+}
+
+ol.breadcrumbs {
+    background: var(--color-accent-light);
+    color: var(--color-surface);
+}
+
+#nav-sidebar .current-app .section:link, #nav-sidebar .current-app .section:visited {
+    color: var(--color-surface);
+    font-weight: bold;
+}
+
+a.section:link, 
+a.section:visited  {
+    color: var(--color-surface);
+}
+
+.paginator a:not(.showall) {
+    background: var(--color-primary);
+}
+
+.paginator a[aria-current="page"] {
+    background: transparent;
+}
+
+input[type="submit"].default {
+    color: var(--color-surface);
+    background: var(--color-primary);
+}
+
+.selector-chosen-title.selector-chosen-title {
+    background: var(--color-primary);
+}
+
+#id_tags_remove_all, .selector-chooseall.selector-chooseall {
+    background: var(--color-primary);
+}
+
+.submit-row input {
+    border: 2px solid var(--color-primary);
+    background: var(--color-surface);
+    color: var(--color-text);
+}
