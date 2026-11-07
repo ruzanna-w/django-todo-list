@@ -49,11 +49,6 @@ a.section:visited  {
     background: transparent;
 }
 
-input[type="submit"].default {
-    color: var(--color-surface);
-    background: var(--color-primary);
-}
-
 .selector-chosen-title.selector-chosen-title {
     background: var(--color-primary);
 }
@@ -62,8 +57,20 @@ input[type="submit"].default {
     background: var(--color-primary);
 }
 
-.submit-row input {
+html[data-theme="light"] input[type="submit"].default,
+html[data-theme="dark"] input[type="submit"].default {
+    color: var(--color-surface);
+    background: var(--color-primary);
+}
+
+html[data-theme="light"] .submit-row input {
     border: 2px solid var(--color-primary);
     background: var(--color-surface);
+    color: var(--color-text);
+}
+
+html[data-theme="dark"] .submit-row input {
+    border: 2px solid var(--color-primary);
+    background: transparent;
     color: var(--color-text);
 }
