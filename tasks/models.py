@@ -71,6 +71,13 @@ class Task(models.Model):
         super().save(*args, **kwargs)
 
 class RecurringTask(Task):
+    task_ptr = models.OneToOneField(
+        Task,
+        on_delete=models.CASCADE,
+        parent_link = True,
+        primary_key = True,
+        related_name="recurring_task")
+    
     periodicity_days = models.PositiveIntegerField(
         help_text="Repeat interval in days."
     )
