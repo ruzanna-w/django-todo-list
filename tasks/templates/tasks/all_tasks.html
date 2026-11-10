@@ -32,12 +32,8 @@
 
                                 <div class="task-status-group">
                                     <input type="hidden" name="task" value="{{ task.id }}">
-
-                                    <input type="checkbox"
-                                           name="done"
-                                           value="on"
-                                           {% if task.done %}checked{% endif %}
-                                           onchange="this.form.submit()">  
+                                    
+                                    {{ task.status_form.done }}
                                     
                                     {% if task.done %}
                                         <span class="task-status">Done</span>

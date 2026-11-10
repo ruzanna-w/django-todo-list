@@ -26,49 +26,17 @@
     --color-priority-medium-text: #8A5430;
 
     --color-priority-high-bg: #E8A0A0;
-    --color-priority-high-text: #7A3030;
-}
+    --color-priority-high-text: #dc2323;
 
-/* ===== NAV ===== */
-nav {
-    margin: 0;
-}
-
-.site-nav {
-    display: flex;
-    justify-content: space-between;
-    padding: 12px 12px 36px 12px;
-}
-
-.nav-logo a {
-    font-family: "Acme", sans-serif;
-    font-size: 18px;
-    color: var(--color-text);
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.nav-btn {
-    display: inline-flex;
-    align-items: center;
-
-    font-family: "Nunito", sans-serif;
-    font-size: 18px;
-    font-weight: 800;
-
-    color: var(--color-primary);
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.nav-link {
-    display: flex;
-    gap: 32px;
+    --font-main: "Nunito", sans-serif;
+    --font-title: "Acme", sans-serif;
 }
 
 /* ===== BASE / LAYOUT ===== */
 body {
     background-color: var(--color-background);
+    font-family: var(--font-main);
+    color: var(--color-text);
 }
 
 body.no-scroll {
@@ -91,6 +59,45 @@ main {
     border-radius: 12px;
     box-shadow: 1px 1px 4px var(--color-border);
 }
+
+/* ===== NAV ===== */
+nav {
+    margin: 0;
+}
+
+.site-nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 12px 36px 12px;
+}
+
+.nav-logo a {
+    font-family: var(--font-title);
+    font-size: 18px;
+    text-decoration: none;
+    color: var(--color-text);
+    cursor: pointer;
+}
+
+.nav-btn {
+    display: inline-flex;
+    align-items: center;
+
+    font-family: var(--font-main);
+    font-size: 18px;
+    font-weight: 800;
+
+    color: var(--color-primary);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.nav-link {
+    display: flex;
+    gap: 32px;
+}
+
+/* ===== HOME PAGE ===== */
 
 .home-page,
 .filter-box {
@@ -127,7 +134,6 @@ h2,
 .text {
     display: flex;
     justify-content: center;
-    color: var(--color-text);
     margin: 0;
 }
 
@@ -137,7 +143,7 @@ h2 {
 
 .text,
 .category-title {
-    font-family: "Nunito", sans-serif;
+    font-family: var(--font-main);
     font-size: 24px;
     padding: 18px 0;
 }
@@ -147,8 +153,7 @@ h2 {
 .title-filter,
 .caption-filter,
 .filtered-task-item {
-    font-family: "Nunito", sans-serif;
-    color: var(--color-text);
+    font-family: var(--font-main);
     font-size: 18px;
     padding: 0;
 }
@@ -163,9 +168,6 @@ h2 {
 .tag-option input {
     position: absolute;
     opacity: 0;
-}
-
-.tag-option {
     cursor: pointer;
 }
 
@@ -182,14 +184,13 @@ h2 {
 
 .title-filter {
     font-weight: 800;
-    color: var(--color-text);
     margin-bottom: 0;
     padding-bottom: 4px;
 }
 
 .caption-filter,
 .tag-selected-caption {
-    font-family: "Nunito", sans-serif;
+    font-family: var(--font-main);
     font-size: 12px;
     color: color-mix(in srgb, var(--color-text) 50%, transparent);
     margin: 0;
@@ -198,9 +199,8 @@ h2 {
 .tag-text,
 .tag-text-explanation,
 .text-filter {
-    font-family: "Nunito", sans-serif;
+    font-family: var(--font-main);
     font-size: 18px;
-    color: var(--color-text);
     padding: 0;
     margin: 0;
 }
@@ -229,8 +229,7 @@ h2 {
 }
 
 .tag-delete {
-    font-family: "Nunito", sans-serif;
-    color: var(--color-text);
+    font-family: var(--font-main);
     font-size: 12px;
     border: none;
     background: transparent;
@@ -238,7 +237,6 @@ h2 {
 
 .beaver-title {
     font-family: "Acme", sans-serif;
-    color: var(--color-text);
     font-size: 60px;
 }
 
@@ -275,34 +273,67 @@ legend {
     margin-bottom: 12px;
 }
 
+.form-container p {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
 .form-label,
 .tag-checkbox {
-    font-family: "Nunito", sans-serif;
+    font-family: var(--font-main);
     font-size: 16px;
     padding-bottom: 4px;
-    color: var(--color-text);
 }
 
 .form-label {
-    color: var(--color-text);
-    font-size: 16px;
-    font-weight: 500;
+    font-weight: 700;
 }
 
 /* ===== FORM: INPUTS ===== */
+
+.task-form-page {
+    display: flex;
+    flex-direction: column;
+}
+
+#id_priority {
+    display: flex;
+    justify-content: start;
+    padding-top: 8px;
+    gap: 24px;
+    font-size: 16px;
+    font-family: var(--font-main);
+}
+
+#id_priority label,
+#id_tags label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#id_tags {
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 8px;
+    gap: 8px;
+}
+
 input[type="text"],
 input[type="date"],
 select {
     padding: 10px 12px;
     background-color: transparent;
-    color: var(--color-text);
     border: 2px solid var(--color-border);
     font-size: 16px;
     border-radius: 8px;
 }
 
 input::placeholder {
-    font-family: "Nunito", sans-serif;
+    font-family: var(--font-main);
     color: var(--color-water);
     font-size: 14px;
 }
@@ -339,6 +370,7 @@ select option {
 }
 
 /* ===== FORM: CHECKBOXES & TAGS ===== */
+input[type="radio"],
 input[type="checkbox"] {
     appearance: none;
     width: 20px;
@@ -350,6 +382,7 @@ input[type="checkbox"] {
     cursor: pointer;
 }
 
+input[type="radio"]:checked,
 input[type="checkbox"]:checked {
     background-color: var(--color-primary);
 }
@@ -400,7 +433,7 @@ input[type="submit"] {
     gap: 8px;
     padding: 8px 16px;
     border-radius: 12px;
-    font-family: "Nunito", sans-serif;
+    font-family: var(--font-main);
     font-size: 16px;
     font-weight: 600;
     text-decoration: none;
@@ -457,17 +490,38 @@ input[type="submit"]:hover {
     margin-top: 4px;
 }
 
+.task-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    flex-wrap: wrap;
+    min-width: 0;
+    max-width: 380px;
+    gap: 8px;
+}
+
+.task-description, 
+.task-deadline {
+    margin: 0;
+}
+
 .task-title-group {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
+    min-width: 0;
+    gap: 8px;
+}
+
+.task-title {
+    max-width: 300px;
 }
 
 .task-title,
 .error-sign,
 .error-description {
-    font-family: "Nunito", sans-serif;
+    font-family: var(--font-main);
     font-weight: 800;
-    color: var(--color-text);
     margin-right: 8px;
 }
 
@@ -478,24 +532,19 @@ input[type="submit"]:hover {
 }
 
 .task-description,
-.task-deadline {
-    width: 340px;
-    margin: 4px 0;
-}
-
-.task-description,
 .task-deadline,
 .task-priority,
 .task-status {
-    font-family: "Nunito", sans-serif;
+    font-family: var(--font-main);
     color: var(--color-text-secondary);
 }
 
 .task-detail {
     display: flex;
     flex-direction: column;
-    gap: 8px;
     justify-content: space-between;
+    flex: 0 0 auto;
+    gap: 8px;
 }
 
 form.form-checkbox {
@@ -526,16 +575,17 @@ form.form-checkbox {
 }
 
 .tags-list {
-    font-family: "Nunito", sans-serif;
-    font-size: 8px;
-    color: var(--color-text);
+    font-family: var(--font-main);
+    font-size: 12px;
+    padding: 4px;
     margin: 2px;
-    padding: 2px;
     background-color: color-mix(in srgb, var(--color-water) 50%, transparent);
     border-radius: 8px;
 }
 
 .task-priority {
+    display: flex;
+    align-self: flex-start;
     font-size: 12px;
     border-radius: 8px;
     padding: 4px 8px;
@@ -566,15 +616,12 @@ form.form-checkbox {
 
 .edit,
 .delete_task,
-.tag-delete {
+.tag-delete,
+.category-delete {
     text-decoration: none;
-    font-family: "Nunito", sans-serif;
-    font-size: 8px;
+    font-family: var(--font-main);
+    font-size: 12px;
     color: var(--color-text);
-    margin-bottom: 4px;
-}
-
-.tag-delete {
     margin-bottom: 8px;
 }
 
@@ -629,10 +676,6 @@ form.form-checkbox {
     font-weight: 600;
 }
 
-.tags-list {
-    padding: 4px;
-}
-
 .filtered-task-description {
     font-size: 12px;
     margin: 0;
@@ -683,11 +726,15 @@ summary {
 
     padding: 16px 12px;
 
-    font-family: "Nunito", sans-serif;
+    font-family: var(--font-main);
     font-size: 18px;
     font-weight: 800;
-    color: var(--color-text);
     border-bottom: 1px solid var(--color-border);
+}
+
+.category-subject-delete {
+    display: flex;
+    gap: 8px;
 }
 
 .category-right {
@@ -697,18 +744,13 @@ summary {
 }
 
 .task-count {
+    display: flex;
+    justify-content: flex-end;
     font-size: 10px;
     color: var(--color-text-secondary);
-
-    background-color: color-mix(
-        in srgb,
-        var(--color-border) 30%,
-        transparent
-    );
-
+    background-color: color-mix(in srgb, var(--color-border) 30%, transparent);
     border: 1px solid var(--color-border);
     border-radius: 16px;
-
     padding: 2px 8px;
 }
 
@@ -728,21 +770,10 @@ summary {
 }
 
 li {
-    font-family: "Nunito", sans-serif;
+    font-family: var(--font-main);
     font-size: 18px;
     padding: 0;
     border-bottom: 1px solid var(--color-border);
-}
-
-.task-count {
-    display: flex;
-    justify-content: flex-end;
-    font-size: 10px;
-    color: var(--color-text-secondary);
-    background-color: color-mix(in srgb, var(--color-border) 30%, transparent);
-    border: 1px solid var(--color-border);
-    border-radius: 16px;
-    padding: 2px 8px;
 }
 
 .category-tasks {
@@ -811,4 +842,16 @@ input[type="text"].delete-task-input {
 
 .back-home {
     margin-top: 0;
+}
+
+.errorlist li {
+    padding-top: 8px;
+    border-bottom: none;
+    color: var(--color-priority-high-text);
+}
+
+.task-title,
+.task-description {
+    min-width: 0;
+    overflow-wrap: anywhere;
 }

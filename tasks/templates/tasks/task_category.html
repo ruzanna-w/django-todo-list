@@ -9,10 +9,14 @@
         <div class="content-box">
             <h1 class="beaver-title">Tasks Categories</h1>
             <div class="category-box">
-                {% for category in task_category%}
+                {% for category in categories%}
                     <details class="category-card">
                         <summary class="category-title">
-                            <span class="category-name">{{ category.title }}</span>
+                            <div class="category-subject-delete">
+                                <span class="category-name">{{ category.title }}</span>
+                                <a href="{% url 'tasks:delete_category' category.id%}" class="category-delete">×</a>
+                            </div>
+                            
 
                             <span class="category-right">
                                 <span class="task-count">
@@ -44,6 +48,7 @@
                     <div class="form-container">
                         <label class="form-label">Title</label>
                         <input type="text" name="title" placeholder="Enter category title" required>
+                        {{ category_form.title.errors }}
                     </div>
                     <div class="button-group form-btn-group">
                         <div class="button-group-left">

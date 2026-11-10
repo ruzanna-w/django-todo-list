@@ -58,7 +58,7 @@ a.section:visited  {
 }
 
 html[data-theme="light"] input[type="submit"].default,
-html[data-theme="dark"] input[type="submit"].default {
+html[data-theme="light"] input[type="submit"].default {
     color: var(--color-surface);
     background: var(--color-primary);
 }

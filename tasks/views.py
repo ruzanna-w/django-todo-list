@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import Task, TaskList, Tag
-from .forms import TaskForm, TaskStatusForm
+from .forms import TaskForm, TaskStatusForm, TagForm, TaskListForm
 from django.db.models import Count
 
 
@@ -11,22 +11,41 @@ def home(request):
 
 def task_list(request):
     all_tasks = Task.objects.all().prefetch_related('tags')
+
+    for task in all_tasks:
+        task.status_form = TaskStatusForm(instance=task)
+    
     return render(request, "tasks/all_tasks.html", {"all_tasks": all_tasks})
 
 def task_category(request):
     if request.method == "POST":
-        title = request.POST["title"]
-        TaskList.objects.create(title=title)
-        return redirect("tasks:task_category")
+        category_form = TaskListForm(request.POST)
+
+        if category_form.is_valid():
+            category_form.save()
+            return redirect("tasks:task_category")
+    else:
+        category_form = TaskListForm()
     
-    task_category = TaskList.objects.annotate(task_count=Count("task")).prefetch_related("task_set")
-    return render(request, "tasks/task_category.html", {"task_category": task_category})
+    categories = TaskList.objects.annotate(
+        task_count=Count("task")
+        ).prefetch_related("task_set")
+    return render(request, 
+        "tasks/task_category.html", {
+        "categories": categories, 
+        "category_form": category_form
+    })
 
 def tag_list(request):
     if request.method == "POST":
-        title = request.POST["title"]
-        Tag.objects.create(title=title)
-        return redirect("tasks:tag")
+        tag_form = TagForm(request.POST)
+
+        if tag_form.is_valid():
+            tag_form.save()
+            return redirect("tasks:tag")
+
+    else:
+        tag_form = TagForm()
         
     tags = Tag.objects.all()
     selected_tags = request.GET.getlist("tags")
@@ -35,6 +54,7 @@ def tag_list(request):
 
     return render(request, "tasks/tag.html", {
         "tag": tags,
+        "tag_form": tag_form,
         "selected_tags": selected_tags,
         "selected_count": len(selected_tags),
         "tasks": tasks,
@@ -44,14 +64,13 @@ def tag_list(request):
 def add_task(request):
     if request.method == "POST":
         form = TaskForm(request.POST)
-
         if form.is_valid():
             form.save()
             return redirect("tasks:add_task")
     else:
         form = TaskForm()
 
-    return render(request, "tasks/task_form.html", {'form':form})
+    return render(request, "tasks/task_form.html", {'form': form})
 
 
 def edit(request, task_slug):
@@ -97,6 +116,16 @@ def delete_tag(request, tag_id):
         return redirect("tasks:tag")
     
     return render(request, "tasks/tag_delete.html", {"tag": tag})
+
+def delete_category(request, task_list_id):
+    task_category = get_object_or_404(TaskList, id=task_list_id)
+
+    if request.method == 'POST':
+        task_category.delete()
+        return redirect("tasks:task_category")
+    return render(request, "tasks/category_delete.html", {"task_category": task_category})
+    
+
 
 def page_not_found(request, exception):
     return render(request, '404.html', status=404)
