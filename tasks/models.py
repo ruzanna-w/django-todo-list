@@ -71,6 +71,6 @@ class Task(models.Model):
         super().save(*args, **kwargs)
 
 class RecurringTask(Task):
-    periodicity_hours = models.PositiveIntegerField(
-        help_text="Интервал повторения задачи в часах."
+    periodicity_days = models.PositiveIntegerField(
+        help_text="Repeat interval in days."
     )
