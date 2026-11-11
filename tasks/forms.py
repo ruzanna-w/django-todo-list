@@ -11,6 +11,7 @@ class TaskForm(forms.ModelForm):
         widget = forms.CheckboxInput(attrs={
             "class": "repeat-task-toggle",
         }))
+    
     periodicity_days = forms.IntegerField(
         min_value=1,
         required=False,

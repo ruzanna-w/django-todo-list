@@ -49,9 +49,10 @@ class Task(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
+        related_name='tasks'
     )
 
-    tags = models.ManyToManyField(Tag, blank=True)
+    tags = models.ManyToManyField(Tag, blank=True, related_name='tagged_tasks')
 
     class Meta: 
         ordering = ["deadline"]

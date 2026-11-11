@@ -28,8 +28,8 @@ def task_category(request):
         category_form = TaskListForm()
     
     categories = TaskList.objects.annotate(
-        task_count=Count("task")
-        ).prefetch_related("task_set")
+        task_count=Count("tasks")
+        ).prefetch_related("tasks")
     return render(request, 
         "tasks/task_category.html", {
         "categories": categories, 
