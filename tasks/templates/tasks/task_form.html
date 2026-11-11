@@ -18,8 +18,13 @@
             <div class="form-error">{{ form.non_field_errors }}</div>
             <div class="form-container">
                 {% for f in form %}
-                <p><label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}</p>
-                <div class="form-error">{{ f.errors }}</div>
+                    <div class="{% if f.name == 'periodicity_days' %}repeat-interval-field{% endif %}">
+                        <p>
+                            <label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}</label>
+                            {{ f }}
+                        </p>
+                        <div class="form-error">{{ f.errors }}</div>
+                    </div>
                 {% endfor %}
             </div>
             
@@ -35,4 +40,17 @@
             </div>
         </form>
     </div>
+
+<script>
+    const repeatCheckbox = document.getElementById("id_repeat");
+    const intervalField = document.querySelector(".repeat-interval-field");
+
+    function toggleIntervalField() {
+        intervalField.hidden = !repeatCheckbox.checked;
+    }
+
+    toggleIntervalField();
+    repeatCheckbox.addEventListener("change", toggleIntervalField);
+</script>
+
 {% endblock %}

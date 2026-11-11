@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-from .models import Task, TaskList, Tag
+from .models import Task, TaskList, Tag, RecurringTask
 from .forms import TaskForm, TaskStatusForm, TagForm, TaskListForm
 from django.db.models import Count
 
@@ -10,7 +10,7 @@ def home(request):
     return render(request, "tasks/home.html")
 
 def task_list(request):
-    all_tasks = Task.objects.all().prefetch_related('tags')
+    all_tasks = Task.objects.select_related("recurring_task").prefetch_related('tags')
 
     for task in all_tasks:
         task.status_form = TaskStatusForm(instance=task)
@@ -65,26 +65,69 @@ def add_task(request):
     if request.method == "POST":
         form = TaskForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect("tasks:add_task")
+            task = form.save()
+
+            if form.cleaned_data["repeat"]:
+                RecurringTask.objects.create(
+                    task_ptr=task,
+                    title=task.title,
+                    slug=task.slug,
+                    description=task.description,
+                    deadline=task.deadline,
+                    priority=task.priority,
+                    done=task.done,
+                    task_list=task.task_list,
+                    periodicity_days=form.cleaned_data["periodicity_days"],
+                )
+            return redirect("tasks:tasks")
     else:
         form = TaskForm()
 
     return render(request, "tasks/task_form.html", {'form': form})
 
-
 def edit(request, task_slug):
     task = get_object_or_404(Task, slug=task_slug)
+
     if request.method == "POST":
         form = TaskForm(request.POST, instance=task)
 
         if form.is_valid():
-            form.save()
+            task = form.save()
+
+            if form.cleaned_data["repeat"]:
+                RecurringTask.objects.update_or_create(
+                    task_ptr=task,
+                    defaults={
+                        "title": task.title,
+                        "slug": task.slug,
+                        "description": task.description,
+                        "deadline": task.deadline,
+                        "priority": task.priority,
+                        "done": task.done,
+                        "task_list": task.task_list,
+                        "periodicity_days": form.cleaned_data["periodicity_days"],
+                    },
+                )
+            else:
+                recurring_task = RecurringTask.objects.filter(pk=task.pk).first()
+                if recurring_task:
+                    recurring_task.delete(keep_parents=True)
+
             return redirect("tasks:tasks")
     else:
-        form = TaskForm(instance=task)
+        recurring_task = RecurringTask.objects.filter(pk=task.pk).first()
 
-    return render(request, "tasks/task_form.html", {"form": form, 'task': task})
+        form = TaskForm(
+            instance=task,
+            initial={
+                "repeat": recurring_task is not None,
+                "periodicity_days": (
+                    recurring_task.periodicity_days if recurring_task else None
+                ),
+            },
+        )
+
+    return render(request, "tasks/task_form.html", {"form": form, "task": task})
 
 
 def delete_task(request, task_slug):
@@ -123,9 +166,7 @@ def delete_category(request, task_list_id):
     if request.method == 'POST':
         task_category.delete()
         return redirect("tasks:task_category")
-    return render(request, "tasks/category_delete.html", {"task_category": task_category})
-    
-
+    return render(request, "tasks/category_delete.html", {"task_category": task_category})    
 
 def page_not_found(request, exception):
     return render(request, '404.html', status=404)

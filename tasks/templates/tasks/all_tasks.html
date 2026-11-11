@@ -18,6 +18,9 @@
                             </div>
                             <p class="task-description">{{ task.description }}</p>
                             <p class="task-deadline">{{ task.deadline }}</p>
+                            {% if task.recurring_task %}
+                                <p class="repeat-days">Repeats every {{ task.recurring_task.periodicity_days }} days</p>
+                            {% endif %}
                             <div class="tag-group">
                                 {% for tag in task.tags.all %}
                                     <p class="tags-list">#{{tag.title}}</p>
