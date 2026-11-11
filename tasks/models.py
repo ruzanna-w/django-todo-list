@@ -53,6 +53,9 @@ class Task(models.Model):
 
     tags = models.ManyToManyField(Tag, blank=True)
 
+    class Meta: 
+        ordering = ["deadline"]
+
     def __str__(self):
         return f"{self.title}"
 
