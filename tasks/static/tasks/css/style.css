@@ -324,6 +324,7 @@ legend {
 
 input[type="text"],
 input[type="date"],
+input[type="number"],
 select {
     padding: 10px 12px;
     background-color: transparent;
@@ -501,7 +502,8 @@ input[type="submit"]:hover {
 }
 
 .task-description, 
-.task-deadline {
+.task-deadline,
+.repeat-days {
     margin: 0;
 }
 
@@ -531,14 +533,6 @@ input[type="submit"]:hover {
     margin: 0;
 }
 
-.task-description,
-.task-deadline,
-.task-priority,
-.task-status {
-    font-family: var(--font-main);
-    color: var(--color-text-secondary);
-}
-
 .task-detail {
     display: flex;
     flex-direction: column;
@@ -564,7 +558,8 @@ form.form-checkbox {
     font-weight: 600;
 }
 
-.task-deadline {
+.task-deadline,
+.repeat-days {
     font-size: 12px;
 }
 
