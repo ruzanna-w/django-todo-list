@@ -5,6 +5,17 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
 class TaskForm(forms.ModelForm):
+    repeat = forms.BooleanField(
+        required=False, 
+        label = "Repeat task",
+        widget = forms.CheckboxInput(attrs={
+            "class": "repeat-task-toggle",
+        }))
+    periodicity_days = forms.IntegerField(
+        min_value=1,
+        required=False,
+        label="Repeat every (days)"
+    )
     task_list = forms.ModelChoiceField(
         queryset=TaskList.objects.all(),
         empty_label="category isn't selected",
@@ -42,6 +53,14 @@ class TaskForm(forms.ModelForm):
             }),
 
         }
+    
+    def clean(self):
+        cleaned_data = super().clean()
+
+        if cleaned_data.get('repeat') and not cleaned_data.get("periodicity_days"):
+            self.add_error("periodicity_days", "Enter the repeat interval.")
+        
+        return cleaned_data
     
     def clean_deadline(self):
         deadline = self.cleaned_data['deadline']
