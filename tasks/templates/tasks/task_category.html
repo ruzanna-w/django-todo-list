@@ -20,7 +20,7 @@
 
                             <span class="category-right">
                                 <span class="task-count">
-                                    {% if category.task_set.count == 1 %}
+                                    {% if category.tasks.count == 1 %}
                                         {{ category.task_count }} task
                                     {% else %}
                                         {{ category.task_count }} tasks
@@ -30,7 +30,7 @@
                             </span>
                         </summary>
                         <ul class="category-tasks">
-                            {% for task in category.task_set.all %}
+                            {% for task in category.tasks.all %}
                                 <li>{{ task.title }}</li>
                             {% endfor %}
                         </ul>
