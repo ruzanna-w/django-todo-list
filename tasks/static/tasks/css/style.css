@@ -610,7 +610,7 @@ form.form-checkbox {
 }
 
 .edit,
-.delete_task,
+.text-danger,
 .tag-delete,
 .category-delete {
     text-decoration: none;
@@ -620,7 +620,7 @@ form.form-checkbox {
     margin-bottom: 8px;
 }
 
-.delete_task {
+.text-danger {
     color: var(--color-priority-high-text);
     font-weight: 900;
 }

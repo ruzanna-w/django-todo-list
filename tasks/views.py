@@ -3,10 +3,12 @@ from django.http import HttpResponse
 from .models import Task, TaskList, Tag, RecurringTask
 from .forms import TaskForm, TaskStatusForm, TagForm, TaskListForm
 from django.db.models import Count
-import datetime
-
+from datetime import timedelta
+from django.utils import timezone
 
 # Create your views here.
+today = timezone.now().date()
+
 def home(request):
     return render(request, "tasks/home.html")
 
@@ -16,7 +18,7 @@ def task_list(request):
     for task in all_tasks:
         task.status_form = TaskStatusForm(instance=task)
     
-    return render(request, "tasks/all_tasks.html", {"all_tasks": all_tasks})
+    return render(request, "tasks/all_tasks.html", {"all_tasks": all_tasks, "today": today})
 
 def task_category(request):
     if request.method == "POST":
@@ -151,7 +153,7 @@ def change_status(request):
 def create_next_occurrence(task):
     recurring_task = RecurringTask.objects.filter(task_ptr = task).first()
     if task.done and recurring_task:
-        new_deadline = task.deadline + datetime.timedelta(days=recurring_task.periodicity_days)
+        new_deadline = task.deadline + timedelta(days=recurring_task.periodicity_days)
         new_task = Task.objects.create(
             title = task.title,
             description=task.description,
@@ -165,9 +167,6 @@ def create_next_occurrence(task):
             task_ptr = new_task,
             periodicity_days = recurring_task.periodicity_days
         )
-
-
-    
 
 def delete_tag(request, tag_id):
     tag = get_object_or_404(Tag, id=tag_id)

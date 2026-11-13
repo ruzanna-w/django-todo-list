@@ -17,7 +17,13 @@
                                 <span class="task-priority priority-{{ task.priority }}">{{ task.priority }}</span>
                             </div>
                             <p class="task-description">{{ task.description }}</p>
-                            <p class="task-deadline">{{ task.deadline }}</p>
+                            <p class="task-deadline">
+                                {% if not task.done and task.deadline < today %}
+                                    <span class="text-danger">{{ task.deadline }}</span>
+                                {% else %}
+                                    <span>{{ task.deadline }}</span>
+                                {% endif %}
+                            </p>
                             {% if task.recurring_task %}
                                 <p class="repeat-days">Repeats every {{ task.recurring_task.periodicity_days }} days</p>
                             {% endif %}
@@ -48,7 +54,7 @@
                                 
                             <div class="task-configuration">
                                 <a href="{% url 'tasks:edit' task.slug %}" class="edit">EDIT TASK</a>
-                                <a href="{% url 'tasks:task_delete' task.slug %}" class="delete_task">DELETE</a>
+                                <a href="{% url 'tasks:task_delete' task.slug %}" class="text-danger">DELETE</a>
                             </div>
                             
                         </div>
