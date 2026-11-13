@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from .models import Task, TaskList, Tag, RecurringTask
 from .forms import TaskForm, TaskStatusForm, TagForm, TaskListForm
 from django.db.models import Count
+import datetime
 
 
 # Create your views here.
@@ -122,7 +123,6 @@ def edit(request, task_slug):
 
     return render(request, "tasks/task_form.html", {"form": form, "task": task})
 
-
 def delete_task(request, task_slug):
     task = get_object_or_404(Task, slug=task_slug)
 
@@ -136,13 +136,38 @@ def change_status(request):
     if request.method == 'POST':
         task_id = request.POST.get("task")
         task = get_object_or_404(Task, id=task_id)
-
         form = TaskStatusForm(request.POST, instance=task)
+        previous_task_state = task.done
 
         if form.is_valid():
-            form.save()
-    
+            new_task_state = form.cleaned_data["done"]
+            if not (previous_task_state and not new_task_state):
+                form.save()
+                if not previous_task_state and new_task_state:
+                    create_next_occurrence(task)
+
     return redirect("tasks:tasks")
+
+def create_next_occurrence(task):
+    recurring_task = RecurringTask.objects.filter(task_ptr = task).first()
+    if task.done and recurring_task:
+        new_deadline = task.deadline + datetime.timedelta(days=recurring_task.periodicity_days)
+        new_task = Task.objects.create(
+            title = task.title,
+            description=task.description,
+            deadline=new_deadline,
+            priority=task.priority,
+            done=False,
+            task_list = task.task_list,
+        )
+        new_task.tags.set(task.tags.all())
+        RecurringTask.objects.create(
+            task_ptr = new_task,
+            periodicity_days = recurring_task.periodicity_days
+        )
+
+
+    
 
 def delete_tag(request, tag_id):
     tag = get_object_or_404(Tag, id=tag_id)
