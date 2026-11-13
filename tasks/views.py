@@ -98,13 +98,6 @@ def edit(request, task_slug):
                 RecurringTask.objects.update_or_create(
                     task_ptr=task,
                     defaults={
-                        "title": task.title,
-                        "slug": task.slug,
-                        "description": task.description,
-                        "deadline": task.deadline,
-                        "priority": task.priority,
-                        "done": task.done,
-                        "task_list": task.task_list,
                         "periodicity_days": form.cleaned_data["periodicity_days"],
                     },
                 )
