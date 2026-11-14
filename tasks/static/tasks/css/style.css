@@ -25,8 +25,8 @@
     --color-priority-medium-bg: #FFD3B0;
     --color-priority-medium-text: #8A5430;
 
-    --color-priority-high-bg: #E8A0A0;
-    --color-priority-high-text: #dc2323;
+    --color-priority-high-bg: #ffd7d7;
+    --color-priority-high-text: #ce0505;
 
     --font-main: "Nunito", sans-serif;
     --font-title: "Acme", sans-serif;
@@ -58,6 +58,11 @@ main {
     background-color: var(--color-surface);
     border-radius: 12px;
     box-shadow: 1px 1px 4px var(--color-border);
+}
+
+.display-all-tasks {
+    background-color: transparent;
+    box-shadow: none;
 }
 
 /* ===== NAV ===== */
@@ -238,6 +243,11 @@ h2 {
 .beaver-title {
     font-family: "Acme", sans-serif;
     font-size: 60px;
+}
+
+.display-all-tasks .beaver-title {
+    justify-content: flex-start;
+    padding-bottom: 20px;
 }
 
 h5 {
@@ -462,10 +472,6 @@ input[type="submit"]:hover {
 }
 
 /* ===== TASKS LIST ===== */
-.tasks-list {
-    max-height: 500px;
-    overflow-y: auto;
-}
 
 .tasks-checkbox {
     display: flex;
@@ -473,7 +479,7 @@ input[type="submit"]:hover {
     justify-content: space-between;
     gap: 12px;
     padding: 20px;
-    margin: 0 8px 8px 8px;
+    margin-bottom: 12px;
     border: 2px solid var(--color-primary);
     border-radius: 8px;
 }
@@ -481,10 +487,6 @@ input[type="submit"]:hover {
 .tasks-checkbox:hover {
     box-shadow: 2px 2px 4px var(--color-primary-hover);
     cursor: pointer;
-}
-
-.tasks-checkbox:first-child {
-    margin-top: 20px;
 }
 
 .tasks-checkbox input[type="checkbox"] {
@@ -495,9 +497,23 @@ input[type="submit"]:hover {
     display: flex;
     flex-direction: column;
     flex: 1 1 auto;
-    flex-wrap: wrap;
-    min-width: 0;
-    max-width: 380px;
+    gap: 16px;
+}
+
+.task-title-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.task-title-group .form-checkbox {
+    margin-left: auto;
+}
+
+.task-details {
+    display: flex;
+    flex-direction: column;
+    max-width: 480px;
     gap: 8px;
 }
 
@@ -509,6 +525,7 @@ input[type="submit"]:hover {
 
 .task-title-group {
     display: flex;
+
     flex-wrap: wrap;
     align-items: center;
     min-width: 0;
@@ -582,7 +599,7 @@ form.form-checkbox {
     display: flex;
     align-self: flex-start;
     font-size: 12px;
-    border-radius: 8px;
+    border-radius: 10px;
     padding: 4px 8px;
     font-weight: 600;
     margin: 0;
