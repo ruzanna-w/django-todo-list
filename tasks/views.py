@@ -28,7 +28,6 @@ def archive_list(request):
 
     return render(request, "tasks/all_tasks.html", {"all_tasks": all_tasks, 'is_archived': is_archived})
 
-
 def task_category(request):
     if request.method == "POST":
         category_form = TaskListForm(request.POST)
@@ -142,6 +141,17 @@ def delete_task(request, task_slug):
         return redirect("tasks:tasks")
 
     return render(request, "tasks/task_delete.html", {"task": task})
+
+def restore_task(request, task_slug):
+    task = get_object_or_404(Task, slug=task_slug)
+
+    if request.method == "POST":
+        task.done = False
+        task.save()
+        return redirect("tasks:tasks")
+    else:
+        return redirect("tasks:archive_list")
+
 
 def change_status(request):
     if request.method == 'POST':

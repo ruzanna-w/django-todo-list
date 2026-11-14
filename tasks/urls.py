@@ -15,4 +15,5 @@ urlpatterns = [
     path("<int:tag_id>/tag_delete/", views.delete_tag, name="delete_tag"),
     path("<int:task_list_id>/category_delete/", views.delete_category, name="delete_category"),
     path("archive/", views.archive_list, name="archive_list"),
+    path("<slug:task_slug>/restore/", views.restore_task, name="restore_task"),
 ]
