@@ -34,7 +34,7 @@ class Task(models.Model):
         MEDIUM = "medium", "Medium"
         HIGH = "high", "High"
 
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=50)
     slug = models.SlugField(max_length=255, unique=True, db_index=True)
     description = models.CharField(max_length=200)
     deadline = models.DateField()
