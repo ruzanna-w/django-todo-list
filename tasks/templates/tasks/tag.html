@@ -56,8 +56,8 @@
                             </div>
                             <p class="filtered-task-description">{{ task.description }}</p>
                             <div class="task-configuration tag-task-configuration">
-                                <a href="{% url 'tasks:edit' task.id %}" class="edit">EDIT TASK</a>
-                                <a href="{% url 'tasks:task_delete' task.id %}" class="delete_task">DELETE</a>
+                                <a href="{% url 'tasks:edit' task.slug %}" class="edit">EDIT TASK</a>
+                                <a href="{% url 'tasks:task_delete' task.slug %}" class="text-danger">DELETE</a>
                             </div>
                         </li>
                     {% endfor %}
