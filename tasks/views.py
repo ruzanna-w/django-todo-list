@@ -152,7 +152,7 @@ def change_status(request):
 
 def create_next_occurrence(task):
     recurring_task = RecurringTask.objects.filter(task_ptr = task).first()
-    if task.done and recurring_task:
+    if task.done and recurring_task and task.deadline >= today:
         new_deadline = task.deadline + timedelta(days=recurring_task.periodicity_days)
         new_task = Task.objects.create(
             title = task.title,
