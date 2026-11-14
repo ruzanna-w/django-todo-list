@@ -13,12 +13,21 @@ def home(request):
     return render(request, "tasks/home.html")
 
 def task_list(request):
-    all_tasks = Task.objects.select_related("recurring_task").prefetch_related('tags')
-
+    
+    all_tasks = Task.objects.filter(done=False).select_related("recurring_task").prefetch_related("tags")
+    is_archived = False
+    
     for task in all_tasks:
         task.status_form = TaskStatusForm(instance=task)
     
-    return render(request, "tasks/all_tasks.html", {"all_tasks": all_tasks, "today": today})
+    return render(request, "tasks/all_tasks.html", {"all_tasks": all_tasks, "today": today, "is_archived": is_archived })
+
+def archive_list(request):
+    all_tasks = Task.objects.filter(done = True)
+    is_archived = True
+
+    return render(request, "tasks/all_tasks.html", {"all_tasks": all_tasks, 'is_archived': is_archived})
+
 
 def task_category(request):
     if request.method == "POST":

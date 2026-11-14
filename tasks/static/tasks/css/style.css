@@ -622,19 +622,25 @@ form.form-checkbox {
 
 .task-configuration {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     gap: 8px;
 }
 
 .edit,
 .text-danger,
 .tag-delete,
-.category-delete {
+.category-delete,
+.task-list-switch-link {
     text-decoration: none;
     font-family: var(--font-main);
     font-size: 12px;
     color: var(--color-text);
     margin-bottom: 8px;
+}
+
+.task-list-switch-link {
+    display: block;
+    padding-bottom: 20px;
 }
 
 .text-danger {
