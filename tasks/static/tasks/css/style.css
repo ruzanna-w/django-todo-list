@@ -125,14 +125,6 @@ nav {
     box-shadow: 1px 1px 4px var(--color-border);
 }
 
-.delete-form {
-    padding: 0;
-    margin: 0 auto;
-    background: transparent;
-    border: none;
-    box-shadow: none;
-}
-
 /* ===== TYPOGRAPHY ===== */
 h1,
 h2,
@@ -241,7 +233,7 @@ h2 {
 }
 
 .beaver-title {
-    font-family: "Acme", sans-serif;
+    font-family: var(--font-title);
     font-size: 60px;
 }
 
@@ -473,6 +465,12 @@ input[type="submit"]:hover {
 
 /* ===== TASKS LIST ===== */
 
+.task-description {
+    margin: 0;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
 .tasks-checkbox {
     display: flex;
     align-items: stretch;
@@ -486,7 +484,6 @@ input[type="submit"]:hover {
 
 .tasks-checkbox:hover {
     box-shadow: 2px 2px 4px var(--color-primary-hover);
-    cursor: pointer;
 }
 
 .tasks-checkbox input[type="checkbox"] {
@@ -503,7 +500,9 @@ input[type="submit"]:hover {
 .task-title-group {
     display: flex;
     align-items: center;
-    gap: 12px;
+    flex-wrap: wrap;
+    min-width: 0;
+    gap: 8px;
 }
 
 .task-title-group .form-checkbox {
@@ -517,26 +516,20 @@ input[type="submit"]:hover {
     gap: 8px;
 }
 
-.task-description, 
 .task-deadline,
 .repeat-days {
     margin: 0;
-}
-
-.task-title-group {
-    display: flex;
-
-    flex-wrap: wrap;
-    align-items: center;
-    min-width: 0;
-    gap: 8px;
+    font-size: 12px;
 }
 
 .task-title {
     max-width: 300px;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    font-family: var(--font-main);
+    font-weight: 800;
+    margin-right: 8px;
 }
-
-.task-title,
 .error-sign,
 .error-description {
     font-family: var(--font-main);
@@ -548,14 +541,6 @@ input[type="submit"]:hover {
     font-size: 24px;
     font-weight: 600;
     margin: 0;
-}
-
-.task-detail {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex: 0 0 auto;
-    gap: 8px;
 }
 
 form.form-checkbox {
@@ -575,9 +560,8 @@ form.form-checkbox {
     font-weight: 600;
 }
 
-.task-deadline,
-.repeat-days {
-    font-size: 12px;
+.archived-task-status {
+    margin-left: auto;
 }
 
 .tag-group {
@@ -622,7 +606,8 @@ form.form-checkbox {
 
 .task-configuration {
     display: flex;
-    justify-content: flex-end;
+    align-items: center;
+    justify-content: space-between;
     gap: 8px;
 }
 
@@ -638,14 +623,38 @@ form.form-checkbox {
     margin-bottom: 8px;
 }
 
+.text-danger {
+    color: var(--color-priority-high-text);
+    font-weight: 900;
+    margin-bottom: 0px;
+}
+
+.edit {
+    margin-bottom: 0px;
+}
+
+input[type="submit"].restore-btn {
+    background: none;
+    appearance: none;
+    font-size: 12px;
+    border: 0;
+    padding: 0 2px 0 0;
+    color: var(--color-text);
+    cursor: pointer;
+}
+
+input[type="submit"].restore-btn:hover {
+    box-shadow: none;
+}
+
 .task-list-switch-link {
     display: block;
     padding-bottom: 20px;
 }
 
-.text-danger {
-    color: var(--color-priority-high-text);
-    font-weight: 900;
+form.restore-btn {
+    margin: 0;
+    padding: 0;
 }
 
 .tasks-checkbox.status-done {
@@ -678,7 +687,7 @@ form.form-checkbox {
     padding: 12px 24px;
     margin-bottom: 8px;
     border-radius: 8px;
-    box-shadow: 0px 0px 2px var(--color-border);;
+    box-shadow: 0px 0px 2px var(--color-border);
     border-bottom: none;
 }
 
@@ -813,6 +822,11 @@ li {
     display: flex;
     flex-direction: column;
     max-width: 480px;
+    padding: 0;
+    margin: 0 auto;
+    background: transparent;
+    border: none;
+    box-shadow: none;
 }   
 
 .confirm_removal {
@@ -866,10 +880,4 @@ input[type="text"].delete-task-input {
     padding-top: 8px;
     border-bottom: none;
     color: var(--color-priority-high-text);
-}
-
-.task-title,
-.task-description {
-    min-width: 0;
-    overflow-wrap: anywhere;
 }
