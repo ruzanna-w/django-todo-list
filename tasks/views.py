@@ -26,6 +26,14 @@ def archive_list(request):
     all_tasks = Task.objects.filter(done = True)
     is_archived = True
 
+    for task in all_tasks:
+        try:
+            current_recurring_task = task.recurring_task
+        except RecurringTask.DoesNotExist:
+            task.can_restore = True
+        else:
+            task.can_restore = not current_recurring_task.next_tasks.exists()
+
     return render(request, "tasks/all_tasks.html", {"all_tasks": all_tasks, 'is_archived': is_archived})
 
 def task_category(request):
@@ -144,14 +152,20 @@ def delete_task(request, task_slug):
 
 def restore_task(request, task_slug):
     task = get_object_or_404(Task, slug=task_slug)
-
     if request.method == "POST":
-        task.done = False
-        task.save()
-        return redirect("tasks:tasks")
+        try:
+            current_recurring_task = task.recurring_task
+        except RecurringTask.DoesNotExist:
+            current_recurring_task = None
+
+        if not current_recurring_task or not current_recurring_task.next_tasks.exists():
+            task.done = False
+            task.save()
+            return redirect("tasks:tasks")
+        else: 
+            return redirect("tasks:archive_list")
     else:
         return redirect("tasks:archive_list")
-
 
 def change_status(request):
     if request.method == 'POST':
@@ -174,28 +188,30 @@ def create_next_occurrence(task):
     recurring_task = RecurringTask.objects.filter(task_ptr = task).first()
     
     if task.done and recurring_task and task.deadline >= today:
-        new_deadline = task.deadline + timedelta(days=recurring_task.periodicity_days)
+        if not recurring_task.next_tasks.exists():
+            new_deadline = task.deadline + timedelta(days=recurring_task.periodicity_days)
 
-        new_task = Task.objects.create(
-            title = task.title,
-            description=task.description,
-            deadline=new_deadline,
-            priority=task.priority,
-            done=False,
-            task_list = task.task_list,
-        )
-        new_task.tags.set(task.tags.all())
-        RecurringTask.objects.create(
-            task_ptr=new_task,
-            title=new_task.title,
-            slug=new_task.slug,
-            description=new_task.description,
-            deadline=new_task.deadline,
-            priority=new_task.priority,
-            done=new_task.done,
-            task_list=new_task.task_list,
-            periodicity_days=recurring_task.periodicity_days,
-        )
+            new_task = Task.objects.create(
+                title = task.title,
+                description=task.description,
+                deadline=new_deadline,
+                priority=task.priority,
+                done=False,
+                task_list = task.task_list,
+            )
+            new_task.tags.set(task.tags.all())
+            RecurringTask.objects.create(
+                task_ptr=new_task,
+                title=new_task.title,
+                slug=new_task.slug,
+                description=new_task.description,
+                deadline=new_task.deadline,
+                priority=new_task.priority,
+                done=new_task.done,
+                task_list=new_task.task_list,
+                periodicity_days=recurring_task.periodicity_days,
+                previous_task = recurring_task,
+            )
 
 def delete_tag(request, tag_id):
     tag = get_object_or_404(Tag, id=tag_id)
