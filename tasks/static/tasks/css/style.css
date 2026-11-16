@@ -657,14 +657,6 @@ form.restore-btn {
     padding: 0;
 }
 
-.tasks-checkbox.status-done {
-    opacity: 0.5;
-}
-
-.tasks-checkbox.status-done .task-title {
-    text-decoration: line-through;
-}
-
 /* ===== TAG LIST ===== */
 .tag-list {
     display: flex;
