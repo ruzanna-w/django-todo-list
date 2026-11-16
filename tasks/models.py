@@ -85,3 +85,11 @@ class RecurringTask(Task):
     periodicity_days = models.PositiveIntegerField(
         help_text="Repeat interval in days."
     )
+
+    previous_task = models.ForeignKey(
+        "self", 
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="next_tasks"
+        )
