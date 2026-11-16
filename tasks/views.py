@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import Task, TaskList, Tag, RecurringTask
 from .forms import TaskForm, TaskStatusForm, TagForm, TaskListForm
-from django.db.models import Count
+from django.db.models import Count, Q, Prefetch
 from datetime import timedelta
 from django.utils import timezone
 
@@ -47,8 +47,8 @@ def task_category(request):
         category_form = TaskListForm()
     
     categories = TaskList.objects.annotate(
-        task_count=Count("tasks")
-        ).prefetch_related("tasks")
+        task_count=Count("tasks", filter=Q(tasks__done=False))
+        ).prefetch_related(Prefetch("tasks", queryset=Task.objects.filter(done=False)))
     return render(request, 
         "tasks/task_category.html", {
         "categories": categories, 
