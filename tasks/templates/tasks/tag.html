@@ -7,8 +7,8 @@
 {% block content %}
     <div class="content-box filter-box">
         <h1 class="beaver-title">Tags</h1>
-        <p class="tag-caption">Choose tags to find matching tasks</p>
-        <div class="filter-container">
+        <p class="filter-caption">Choose tags to find matching tasks</p>
+        <div class="filter-container form-container-compact">
             <form method="get">
                 <p class="title-filter">Filter tasks by tags</p>
                 <p class="caption-filter">Tasks with any selected tag will be shown</p>
@@ -65,11 +65,11 @@
             {% endif %}
         </div>
 
-        <div class="filter-container">
-            <form class="tag-form" method="post">
+        <div class="filter-container form-card">
+            <form class="filter-form" method="post">
                 {% csrf_token %}
-                <fieldset class="tag-fieldset">
-                    <legend class="text tag-form-text">if you want to add a tag, please fill the form below</legend>
+                <fieldset class="filter-fieldset">
+                    <legend class="text filter-form-text">if you want to add a tag, please fill the form below</legend>
                     <div class="form-container">
                         <label class="form-label">Title</label>
                         <input type="text" name="title" placeholder="Enter tag title" required>

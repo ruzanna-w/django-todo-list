@@ -5,46 +5,41 @@
 {% endblock%}
 
 {% block content %}
-    <div class="content-category">
-        <div class="content-box">
-            <h1 class="beaver-title">Tasks Categories</h1>
-            <div class="category-box">
-                {% for category in categories%}
-                    <details class="category-card">
-                        <summary class="category-title">
-                            <div class="category-subject-delete">
-                                <span class="category-name">{{ category.title }}</span>
-                                <a href="{% url 'tasks:delete_category' category.id%}" class="category-delete">×</a>
-                            </div>
-                            
-
-                            <span class="category-right">
-                                <span class="task-count">
-                                    {% if category.tasks.count == 1 %}
-                                        {{ category.task_count }} task
-                                    {% else %}
-                                        {{ category.task_count }} tasks
-                                    {% endif %}
-                                </span>
-                                <span class="arrow"></span>
+    <div class="content-box filter-box">
+        <h1 class="beaver-title">Tasks Categories</h1>
+        <p class="filter-caption">List of categories</p>
+        <div class="filter-container form-container-compact category-scroll-container">
+            {% for category in categories%}
+                <details class="category-card">
+                    <summary class="category-title">
+                        <div class="category-subject-delete">
+                            <span class="category-name">{{ category.title }}</span>
+                            <a href="{% url 'tasks:delete_category' category.id%}" class="category-delete">×</a>
+                        </div>
+                        <span class="category-right">
+                            <span class="task-count">
+                                {% if category.tasks.count == 1 %}
+                                    {{ category.task_count }} task
+                                {% else %}
+                                    {{ category.task_count }} tasks
+                                {% endif %}
                             </span>
-                        </summary>
-                        <ul class="category-tasks">
-                            {% for task in category.tasks.all %}
-                                <li>{{ task.title }}</li>
-                            {% endfor %}
-                        </ul>
-                    </details>
-                {% endfor %}
-            </div>
+                            <span class="arrow"></span>
+                        </span>
+                    </summary>
+                    <ul class="category-tasks">
+                        {% for task in category.tasks.all %}
+                            <li>{{ task.title }}</li>
+                        {% endfor %}
+                    </ul>
+                </details>
+            {% endfor %}
         </div>
-
-        <div class="form-content-box">
-            <h2 class="beaver-title">Form</h2>
-            <form class="tag-form" method="post">
+        <div class="filter-container form-card">
+            <form class="filter-form" method="post">
                 {% csrf_token %}
-                <fieldset>
-                    <legend class="text category-form-text">if you want to add a category, please fill the form below</legend>
+                <fieldset class="filter-fieldset">
+                    <legend class="text filter-form-text">if you want to add a category, please fill the form below</legend>
                     <div class="form-container">
                         <label class="form-label">Title</label>
                         <input type="text" name="title" placeholder="Enter category title" required>
