@@ -564,6 +564,15 @@ form.form-checkbox {
     margin-left: auto;
 }
 
+.hidden {
+    visibility: hidden;
+}
+
+.tasks-checkbox.status-done :is(.task-title, .task-priority, .task-status,
+.task-deadline, .task-description, .repeat-days, .tag-group) {
+    opacity: 0.5;
+}
+
 .tag-group {
     display: flex;
     flex-wrap: wrap;

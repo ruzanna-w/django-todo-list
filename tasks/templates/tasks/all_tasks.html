@@ -69,7 +69,8 @@
                                 {% if not is_archived %}
                                     <a href="{% url 'tasks:edit' task.slug %}" class="edit">EDIT TASK</a>
                                 {% elif is_archived %}
-                                    <form action="{% url 'tasks:restore_task' task.slug %}" method="post" class="restore">
+                                    <form action="{% url 'tasks:restore_task' task.slug %}" method="post" 
+                                        class="restore {% if not task.can_restore %}hidden{% endif %}">
                                         {% csrf_token %}
                                         <input type="submit" class="restore-btn" value="RESTORE">
                                     </form>
