@@ -68,7 +68,7 @@ def tag_list(request):
         
     tags = Tag.objects.all()
     selected_tags = request.GET.getlist("tags")
-    tasks = Task.objects.filter(tags__id__in=selected_tags).distinct()
+    tasks = Task.objects.filter(Q(tags__id__in=selected_tags) & Q(done=False)).distinct()
     tasks_count = tasks.count()
 
     return render(request, "tasks/tag.html", {
